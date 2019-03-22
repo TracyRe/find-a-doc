@@ -10,11 +10,14 @@ let resultList;
 promise1.then((response) => {
   let body = JSON.parse(response);
   resultList = doctorList.getList(body.profile);
+  resultList.forEach((doctor) => {
+    $("#doc-list").html(`<li>${doctor}<li>`)
+  });
 });
 
 $(document).ready(function(){
   $("#find-doctors").submit(function(event) {
     event.preventDefault();
-    console.log(resultList);
+    console.log(typeof resultList);
   });
 });
