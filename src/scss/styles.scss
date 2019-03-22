@@ -198,3 +198,7 @@ form {
     @include min-max-width(200px, 480px);
   }
 }
+
+.result {
+  @include cushion(0, 1rem 0);
+}
