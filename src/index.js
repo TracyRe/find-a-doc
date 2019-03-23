@@ -6,9 +6,9 @@ $("document").ready(function() {
   $("#find-doctors").submit(function(event) {
     event.preventDefault();
 
-    const symptom = $("#user-input").val();
+    const query = $("#user-input").val();
     let doctorList = new DoctorList();
-    let promise1 = doctorList.getDoctors(symptom);
+    let promise1 = doctorList.getDoctors(query);
     let lastName;
     let firstName;
     let middleName;
@@ -22,6 +22,7 @@ $("document").ready(function() {
 
       console.log(body.data[0].profile.middle_name);
       console.log(body.data[2].profile.middle_name);
+      console.log(body.data.length);
 
       for (let i = 0; i <= body.data.length - 1; i++) {
         lastName = body.data[i].profile.last_name;
