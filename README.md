@@ -65,7 +65,7 @@ Specification | Input | Output
 Entering symptom should return list of doctors tagged with that symptom | "sore throat" | "Dr Jane Jones, Dr Osman Khan, Dr Ed Smith"
 Entering doctor name (first, last, or first and last) should return list of doctors with that name | "Torkelson" | "Dr Anna Torkelson, Dr Ed Torkelson, Dr Evan Torkelson"
 Doctor details consist of: doctor name (first and last), address, phone number, website,  accepting new patients (Y/N) | "Ed Torkelson" | "Ed Torkelson, 1960 NW 167th Place, Suite 204, Beaverton OR 97006, (503) 614-8735‬, https://www.providence.org/, Accepting New Patients"
-If no results are found, return a message that no results are found | "Twisted brain noodles" | "We're sorry, we are unable to find anything to match your search."
+If no results are found, return a message that no results are found | "Twisted noodles" | "We're sorry, we are unable to find anything to match your search. Try different words to describe your symptoms."
 
 ### Installation
 * Clone from https://github.com/TracyRe/find-a-doc.git
