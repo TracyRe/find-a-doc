@@ -20,12 +20,17 @@ $("document").ready(function() {
     promise1.then((response) => {
       let body = JSON.parse(response);
 
-      console.log(body.data[0].profile.last_name);
+      console.log(body.data[0].profile.middle_name);
+      console.log(body.data[2].profile.middle_name);
 
       for (let i = 0; i <= body.data.length - 1; i++) {
         lastName = body.data[i].profile.last_name;
         firstName = body.data[i].profile.first_name;
-        middleName = body.data[i].profile.middle_name;
+        if (body.data[i].profile.middle_name !== undefined ) {
+          middleName = body.data[i].profile.middle_name;
+        } else {
+          middleName = ``;
+        }
         title = body.data[i].profile.title;
 
         $(".doc-list").append(`<li>${firstName} ${middleName} ${lastName}, ${title} </li>`);
