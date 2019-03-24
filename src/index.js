@@ -13,16 +13,17 @@ $("document").ready(function() {
     console.log("symptom value:" + symptom);
     console.log("doctor value:" + doctor);
 
-    // if (symptom === null) && (doctor === null) {
-    //   $('.result').html(`<p>Please enter something.</p>`);
-    //   } else if (symptom !== null) && (doctor !== null) {
-    //     $('.result').html(`<p>Please enter only one.</p>`);
-    //   } else if (symptom !== null) {
-    //     search = `query=${symptom}`;
-    //   } else {
-    //     search = `name=${doctor}`;
-    //   }
-    search = `name=${doctor}`;
+    if (symptom === null && doctor === null) {
+      $('.result').html(`<p>Please enter something.</p>`);
+      } else if (symptom !== null && doctor !== null) {
+        $('.result').html(`<p>Please enter only one.</p>`);
+      } else if (symptom !== null) {
+        search = `query=${symptom}`;
+      } else {
+        search = `name=${doctor}`;
+      }
+
+    // search = `name=${doctor}`;
     let doctorList = new DoctorList();
     let promise1 = doctorList.getDoctors(search);
     let lastName;
