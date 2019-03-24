@@ -204,6 +204,11 @@ form {
   @include cushion(0, 1rem 0);
 }
 
+li > img {
+  float: left;
+  margin-right: .5rem;
+}
+
 .accept-new-patients-yes {
   color: $text-new-patients;
   font-weight: bold;

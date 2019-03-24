@@ -22,6 +22,8 @@ $("document").ready(function() {
     let state;
     let street;
     let zip;
+    let website;
+    let siteUrl;
 
     // phone formatting adapted from code written by Asim Mittal https://medium.com/@asimmittal
     function formatPhone(text) {
@@ -35,13 +37,13 @@ $("document").ready(function() {
     }
 
 
-
     $(".result").empty(); // clears previous results so  new results don't simply get appended to previous results
 
     promise1.then((response) => {
       let body = JSON.parse(response);
 
       // debugger;
+      console.log(body.data[4].practices[2].website);
 
       if ( body.data.length === 0 ) {
 
@@ -67,25 +69,33 @@ $("document").ready(function() {
           } else {
             profilePhoto = ``;
           }
-          $(".result").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}, ${title}`);
+          $(".result").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}, ${title}<br>`);
 
-          // for (let j = 0; j < body.data[i].practices.length; j++) {
             newPatientsBoolean = body.data[i].practices[0].accepts_new_patients;
             city =  body.data[i].practices[0].visit_address.city;
             state = body.data[i].practices[0].visit_address.state;
             street = body.data[i].practices[0].visit_address.street;
             zip = body.data[i].practices[0].visit_address.zip;
             phone = formatPhone(body.data[i].practices[0].phones[0].number);
-            // phone = body.data[0].practices[0].phones[0].number;
+
+            if (body.data[i].practices[0].website !== undefined ) {
+              siteUrl = body.data[i].practices[0].website;
+              website = `<a href = "${siteUrl}">Website</a><br>`;
+            } else {
+              website = ``;
+            }
+            // for (let j = 0; j < body.data[i].practices.length; j++) {
+            // }   END INNER LOOP  - DOCTOR DATA PRACTICE
+
             if (newPatientsBoolean === true ) {
               acceptsNewPatients = `<span class="accept-new-patients-yes">Accepting new patients</span>`;
             } else {
               acceptsNewPatients = `<span>Not accepting new patients</span>`;
             }
-            $(".result").append(`${phone}
-              ${street}
-              ${city}, ${state} ${zip}`);
-            //}    END INNER LOOP  - DOCTOR DATA PRACTICE
+            $(".result").append(`${phone}<br>
+              ${website}
+              ${street}<br>
+              ${city}, ${state} ${zip}<br>`);
             $(".result").append(`${acceptsNewPatients}</li>`);
 
           } //  END OUTER LOOP - DOCTOR DATA

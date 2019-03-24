@@ -62,7 +62,11 @@ Make API calls and return data to the user.
 ### Assumptions
 * Doctors may have multiple practices with multiple phone numbers and addresses
 * Practice addresses and phone numbers may be duplicated in the database
-* For the purpose of this project, I will use only the first practice address and the first phone number available
+* Not all practices list a website
+* For the purpose of this project, I will use
+ * Only the first practice address available
+ * Only the first phone number available in the first practice listed
+ * A website only if listed for the first practice listed 
 
 ### Development Specs
 
