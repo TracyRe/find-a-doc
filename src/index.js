@@ -14,47 +14,70 @@ $("document").ready(function() {
     let middleName;
     let title;
     let resultList;
+    let profilePhoto;
+    let address;
+    let phone;
+    let newPatientsBoolean;
+    let acceptsNewPatients;
+    let city;
+    let state;
+    let street;
+    let zip;
+
 
     $(".doc-list").empty();
 
     promise1.then((response) => {
       let body = JSON.parse(response);
 
-      console.log(body.data[0].profile.middle_name);
-      console.log(body.data[2].profile.middle_name);
+      // debugger;
+
+
       console.log(body.data.length);
+      console.log(body.data[0].practices.length);
+      console.log(body.data[0].practices[0].visit_address)
 
-      for (let i = 0; i <= body.data.length - 1; i++) {
-        lastName = body.data[i].profile.last_name;
-        firstName = body.data[i].profile.first_name;
-        if (body.data[i].profile.middle_name !== undefined ) {
-          middleName = body.data[i].profile.middle_name;
-        } else {
-          middleName = ``;
-        }
-        title = body.data[i].profile.title;
+      if ( body.data === null ) {
 
-        $(".doc-list").append(`<li>${firstName} ${middleName} ${lastName}, ${title} </li>`);
-
-      }
-
-      // function getList(doctor) {
-      //   const doctorArray = [];
-      //   doctor.forEach((doctorArray) => {
-      //     doctorArray.push(doctor.data.profile.last_name);
-      //   });
-      //   return doctorArray;
-      // }
-      // resultList = doctorList.getList(body.data);
-      // resultList.forEach( (lastName) => {
-      //   $(".doc-list").html(`<li>${lastName}</li>`);
-      //
-      // });
-    }, (error) => {
-      $('.result').html(`<p>Regrettably, there was an error retrieving information: ${error.message}. Please try again.</p>`);
-    });
+        $('.result').html(`<p>We're sorry, we are unable to find anything to match your search. Check the spelling or try different words to describe your symptoms.</p>`);
 
 
-  });
+      } else {
 
-});
+        for (let i = 0; i < body.data.length; i++) {
+
+            lastName = body.data[i].profile.last_name;
+            firstName = body.data[i].profile.first_name;
+            title = body.data[i].profile.title;
+
+            if (body.data[i].profile.middle_name !== undefined ) {
+              middleName = body.data[i].profile.middle_name;
+            } else {
+              middleName = ``;
+            }
+            if (body.data[i].profile.image_url !== undefined ) {
+              profilePhoto = body.data[i].profile.image_url;
+            } else {
+              profilePhoto = ``;
+            }
+
+            for (let j = 0; j < body.data[i].practices.length; j++) {
+              newPatientsBoolean = body.data[i].practices[j].accepts_new_patients;
+            if (newPatientsBoolean === true ) {
+              acceptsNewPatients = `<span class="accept-new-patients-yes">Accepting new patients</span>`;
+            } else {
+              acceptsNewPatients = `<span>Not accepting new patients</span>`;
+            }
+          }  //  END INNER LOOP  - DOCTOR DATA PRACTICE
+
+            $(".doc-list").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}, ${title}<br>${acceptsNewPatients}</li>`);
+        } //  END OUTER LOOP - DOCTOR DATA
+      } // END ELSE - what to do if there's data
+
+    }, (error) => { // END POSITIVE PROMISE, BEGIN ERROR CONDITION
+            $('.result').html(`<p>Regrettably, there was an error retrieving information: ${error.message}. Please try again.</p>`);
+        }); // END ERROR CONDITION AND PROMISE
+
+
+  }); // END SUBMIT
+}); // END DOC READY

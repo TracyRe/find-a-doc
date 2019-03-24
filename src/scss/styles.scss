@@ -9,7 +9,8 @@ $bgcolor-gradient: #ecefe1;
 $bgcolor-nav: #ffffff;
 $bgcolor-button: darken($accent,15%);
 $text-button: #ffffff;
-$box-shadow: 2px 2px 4px rgba(150, 150, 150, .5);
+$text-new-patients: #1f9647;
+$box-shadow: 2px 1px 3px rgba(80, 80, 80, .5);
 $flex: flex;
 $column-nowrap: column nowrap;
 $row-nowrap: row nowrap;
@@ -201,4 +202,9 @@ form {
 
 .result {
   @include cushion(0, 1rem 0);
+}
+
+.accept-new-patients-yes {
+  color: $text-new-patients;
+  font-weight: bold;
 }
