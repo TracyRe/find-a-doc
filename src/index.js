@@ -36,7 +36,6 @@ $("document").ready(function() {
       return result.join("-");
     }
 
-
     $(".result").empty(); // clears previous results so  new results don't simply get appended to previous results
 
     promise1.then((response) => {
@@ -80,7 +79,7 @@ $("document").ready(function() {
 
             if (body.data[i].practices[0].website !== undefined ) {
               siteUrl = body.data[i].practices[0].website;
-              website = `<a href = "${siteUrl}">Website</a><br>`;
+              website = `<a href = "${siteUrl}" onclick = "window.open(this.href); return false;">Website</a><br>`;
             } else {
               website = ``;
             }
