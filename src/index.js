@@ -6,14 +6,29 @@ $("document").ready(function() {
   $("#find-doctors").submit(function(event) {
     event.preventDefault();
 
-    const query = $("#user-input").val();
+    const symptom = $("#user-input-symptom").val();
+    const doctor = $("#user-input-name").val();
+    let search ;
+
+    console.log("symptom value:" + symptom);
+    console.log("doctor value:" + doctor);
+
+    // if (symptom === null) && (doctor === null) {
+    //   $('.result').html(`<p>Please enter something.</p>`);
+    //   } else if (symptom !== null) && (doctor !== null) {
+    //     $('.result').html(`<p>Please enter only one.</p>`);
+    //   } else if (symptom !== null) {
+    //     search = `query=${symptom}`;
+    //   } else {
+    //     search = `name=${doctor}`;
+    //   }
+    search = `name=${doctor}`;
     let doctorList = new DoctorList();
-    let promise1 = doctorList.getDoctors(query);
+    let promise1 = doctorList.getDoctors(search);
     let lastName;
     let firstName;
     let middleName;
     let title;
-    // let resultList;
     let profilePhoto;
     let phone;
     let newPatientsBoolean;
@@ -24,6 +39,7 @@ $("document").ready(function() {
     let zip;
     let website;
     let siteUrl;
+
 
     // phone formatting adapted from code written by Asim Mittal https://medium.com/@asimmittal
     function formatPhone(text) {
@@ -42,7 +58,7 @@ $("document").ready(function() {
       let body = JSON.parse(response);
 
       // debugger;
-      console.log(body.data[4].practices[2].website);
+      // console.log(body.data[4].practices[2].website);
 
       if ( body.data.length === 0 ) {
 
@@ -83,8 +99,6 @@ $("document").ready(function() {
             } else {
               website = ``;
             }
-            // for (let j = 0; j < body.data[i].practices.length; j++) {
-            // }   END INNER LOOP  - DOCTOR DATA PRACTICE
 
             if (newPatientsBoolean === true ) {
               acceptsNewPatients = `<span class="accept-new-patients-yes">Accepting new patients</span>`;
@@ -97,7 +111,7 @@ $("document").ready(function() {
               ${city}, ${state} ${zip}<br>`);
             $(".result").append(`${acceptsNewPatients}</li>`);
 
-          } //  END OUTER LOOP - DOCTOR DATA
+          } //  END LOOP - DOCTOR DATA
           $('.result').append(`</ul>`);
         } // END ELSE - what to do if there's data
 
