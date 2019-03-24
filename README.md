@@ -2,7 +2,7 @@
 
 #### Doctor finder project for Epicodus
 
-_Published_ **March 22 2019**<br>
+_Published_ **March 24 2019**<br>
 _Author_ **Tracy Reith**
 
 1. [Description](#description)
@@ -11,6 +11,7 @@ _Author_ **Tracy Reith**
 1. [User Stories](#user-stories)
 1. [Product Requirements](#product-requirements)
 1. [Non-technical Requirements](#non-technical-requirements)
+1. [Assumptions](#assumptions)
 1. [Development Specs](#development-specs)
 1. [Installation](#installation)
 1. [Known Bugs](#known-bugs)
@@ -57,6 +58,11 @@ Make API calls and return data to the user.
 
 ### Non-technical Requirements
 * The application should be self-apparent how to use: when people are sick or stressed, their cognitive capacity is reduced
+
+### Assumptions
+* Doctors may have multiple practices with multiple phone numbers and addresses
+* Practice addresses and phone numbers may be duplicated in the database
+* For the purpose of this project, I will use only the first practice address and the first phone number available
 
 ### Development Specs
 
