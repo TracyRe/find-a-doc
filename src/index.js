@@ -3,6 +3,25 @@ import './scss/styles.scss';
 import { DoctorList } from './js/project.js';
 
 $("document").ready(function() {
+
+
+
+$("#user-input-symptom").focus();
+
+  function enterSymptom() {
+    $("#user-input-name").val("");
+  }
+
+  function enterName() {
+    $("#user-input-symptom").val("");
+  }
+
+
+  $("#user-input-symptom").focus(enterSymptom);
+  $("#user-input-name").focus(enterName);
+
+
+
   $("#find-doctors").submit(function(event) {
     event.preventDefault();
 
@@ -10,19 +29,25 @@ $("document").ready(function() {
     const doctor = $("#user-input-name").val();
     let search ;
 
-    console.log("symptom value:" + symptom);
-    console.log("doctor value:" + doctor);
+    console.log("symptom entry: " + symptom);
+    console.log("doctor entry: " + doctor);
 
-    if (symptom === null && doctor === null) {
-      $('.result').html(`<p>Please enter something.</p>`);
-      } else if (symptom !== null && doctor !== null) {
-        $('.result').html(`<p>Please enter only one.</p>`);
-      } else if (symptom !== null) {
-        search = `query=${symptom}`;
+
+      if (symptom !== "") {
+        search = String(`query=${symptom}`);
       } else {
-        search = `name=${doctor}`;
+        search = String(`name=${doctor}`);
       }
 
+  console.log("symptom value: " + $("#user-input-symptom").val());
+  console.log("doctor value: " + $("#user-input-name").val());
+
+    // search = String(`query=${symptom}`)
+    // search = String(`name=${doctor}`)
+
+console.log("type of search: " + typeof search);
+console.log("type of symptom: " + typeof symptom);
+console.log("type of doctor: " + typeof doctor);
     // search = `name=${doctor}`;
     let doctorList = new DoctorList();
     let promise1 = doctorList.getDoctors(search);
