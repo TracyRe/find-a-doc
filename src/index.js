@@ -13,9 +13,9 @@ $("document").ready(function() {
     let firstName;
     let middleName;
     let title;
-    let resultList;
+    // let resultList;
     let profilePhoto;
-    // let phone;
+    let phone;
     let newPatientsBoolean;
     let acceptsNewPatients;
     let city;
@@ -23,8 +23,20 @@ $("document").ready(function() {
     let street;
     let zip;
 
+    function convertToValidPhoneNumber(text) {
+        var result = [];
+        text = text.replace(/^\d{2}-?\d{3}-?\d{3}-?\d{3}$/, "");
+        while (text.length >= 6){
+            result.push(text.substring(0, 3));
+            text = text.substring(3);
+        }
+        if (text.length > 0) result.push(text);
+        return result.join("-");
+    }
 
-    $(".doc-list").empty();
+
+
+    $(".result").empty();
 
     promise1.then((response) => {
       let body = JSON.parse(response);
@@ -33,16 +45,17 @@ $("document").ready(function() {
 
 
       console.log(body.data.length);
-      console.log(body.data[0].practices.length);
-      console.log(body.data[0].practices[0].visit_address)
-
-      if ( body.data === null ) {
+      // console.log(body.data[0].practices.length);
+      // console.log(body.data[0].practices[0].phones.length)
+      // debugger;
+      if ( body.data.length === 0 ) {
 
         $('.result').html(`<p>We're sorry, we are unable to find anything to match your search. Check the spelling or try different words to describe your symptoms.</p>`);
 
 
       } else {
 
+          $('.result').append(`<ul>`);
         for (let i = 0; i < body.data.length; i++) {
 
             lastName = body.data[i].profile.last_name;
@@ -59,6 +72,7 @@ $("document").ready(function() {
             } else {
               profilePhoto = ``;
             }
+            $(".result").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}, ${title}`);
 
             for (let j = 0; j < body.data[i].practices.length; j++) {
               newPatientsBoolean = body.data[i].practices[j].accepts_new_patients;
@@ -66,19 +80,21 @@ $("document").ready(function() {
               state = body.data[i].practices[j].visit_address.state;
               street = body.data[i].practices[j].visit_address.street;
               zip = body.data[i].practices[j].visit_address.zip;
+              phone = convertToValidPhoneNumber(body.data[i].practices[j].phones[0].number);
+              // phone = body.data[0].practices[0].phones[0].number;
             if (newPatientsBoolean === true ) {
               acceptsNewPatients = `<span class="accept-new-patients-yes">Accepting new patients</span>`;
             } else {
               acceptsNewPatients = `<span>Not accepting new patients</span>`;
             }
+            $(".result").append(`${phone}
+            ${street}
+            ${city}, ${state} ${zip}
+            ${acceptsNewPatients}</li>`);
 
           }  //  END INNER LOOP  - DOCTOR DATA PRACTICE
-
-            $(".doc-list").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}, ${title}
-            ${acceptsNewPatients}
-            ${street}
-            ${city}, ${city} ${state} ${zip}</li>`);
         } //  END OUTER LOOP - DOCTOR DATA
+        $('.result').append(`</ul>`);
       } // END ELSE - what to do if there's data
 
     }, (error) => { // END POSITIVE PROMISE, BEGIN ERROR CONDITION
