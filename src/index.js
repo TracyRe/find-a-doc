@@ -15,8 +15,7 @@ $("document").ready(function() {
     let title;
     let resultList;
     let profilePhoto;
-    let address;
-    let phone;
+    // let phone;
     let newPatientsBoolean;
     let acceptsNewPatients;
     let city;
@@ -63,14 +62,22 @@ $("document").ready(function() {
 
             for (let j = 0; j < body.data[i].practices.length; j++) {
               newPatientsBoolean = body.data[i].practices[j].accepts_new_patients;
+              city =  body.data[i].practices[j].visit_address.city;
+              state = body.data[i].practices[j].visit_address.state;
+              street = body.data[i].practices[j].visit_address.street;
+              zip = body.data[i].practices[j].visit_address.zip;
             if (newPatientsBoolean === true ) {
               acceptsNewPatients = `<span class="accept-new-patients-yes">Accepting new patients</span>`;
             } else {
               acceptsNewPatients = `<span>Not accepting new patients</span>`;
             }
+
           }  //  END INNER LOOP  - DOCTOR DATA PRACTICE
 
-            $(".doc-list").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}, ${title}<br>${acceptsNewPatients}</li>`);
+            $(".doc-list").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}, ${title}
+            ${acceptsNewPatients}
+            ${street}
+            ${city}, ${city} ${state} ${zip}</li>`);
         } //  END OUTER LOOP - DOCTOR DATA
       } // END ELSE - what to do if there's data
 
