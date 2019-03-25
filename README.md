@@ -66,7 +66,7 @@ Make API calls and return data to the user.
 * For the purpose of this project, I will use
  * Only the first practice address available
  * Only the first phone number available in the first practice listed
- * A website only if listed for the first practice listed 
+ * A website only if listed for the first practice listed
 
 ### Development Specs
 
@@ -81,6 +81,7 @@ If no results are found, return a message that no results are found | "Twisted n
 * Clone from https://github.com/TracyRe/find-a-doc.git
 * Run `$ npm install`
 * Get an API key from [BetterDoctor API](https://developer.betterdoctor.com/)
+* Add API key to .env file in root directory as `exports.apiKey = {{ API KEY }}`
 
 ### Known Bugs
 * None identified
