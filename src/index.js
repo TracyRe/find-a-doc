@@ -88,7 +88,7 @@ console.log("type of doctor: " + typeof doctor);
 
       if ( body.data.length === 0 ) {
 
-        $('.result').html(`<p>We're sorry, we are unable to find anything to match your search. Check the spelling or try different words to describe your symptoms.</p>`);
+        $('.result').html(`<p>We're sorry, we are unable to find anything to match your search. Check the spelling or try different words.</p>`);
 
 
       } else {
@@ -98,7 +98,13 @@ console.log("type of doctor: " + typeof doctor);
 
           lastName = body.data[i].profile.last_name;
           firstName = body.data[i].profile.first_name;
-          title = body.data[i].profile.title;
+          // title = body.data[i].profile.title;
+
+          if (body.data[i].profile.title !== undefined ) {
+            title = ", " + body.data[i].profile.title;
+          } else {
+            title = ``;
+          }
 
           if (body.data[i].profile.middle_name !== undefined ) {
             middleName = body.data[i].profile.middle_name;
@@ -110,7 +116,7 @@ console.log("type of doctor: " + typeof doctor);
           } else {
             profilePhoto = ``;
           }
-          $(".result").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}, ${title}<br>`);
+          $(".result").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}${title}<br>`);
 
             newPatientsBoolean = body.data[i].practices[0].accepts_new_patients;
             city =  body.data[i].practices[0].visit_address.city;
