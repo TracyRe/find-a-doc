@@ -66,7 +66,7 @@ p, input {
 }
 
 input[type=text] {
-  @include min-max-width(300px,500px);
+  @include min-max-width(250px,400px);
   @include cushion(.25rem, 0);
   @include border(0px, #ffffff);
   @include size(60vw, auto);
@@ -78,10 +78,12 @@ input[type=text] {
 a {
   color: $link;
   text-decoration: none;
+
 }
 
 a:hover, a:active {
   color: lighten($link, 10%);
+  text-decoration: underline;
 }
 
 
@@ -116,15 +118,21 @@ form {
 .content-wrap {
   @include size(90%, 100%);
   @include min-max-width(400px, 1200px);
-  @include cushion(2rem 0 1rem 0, 0 auto 2rem auto);
+  @include cushion(1rem .5rem, 0 auto .5rem auto);
   @include flex($flex, $column-nowrap,$center,$center);
   height: 100%;
+  @include tablet {
+    @include cushion(1rem 0, 0 auto .5rem auto);
+  };
   // @include border(1px, #f0f);
+}
+
+.content-text {
+  @include flex($flex, $column-nowrap, flex-start, flex-start);
 }
 
 .credit {
   font-size: .85rem;
-
 }
 
 .image {
@@ -136,8 +144,20 @@ form {
   }
 }
 
+.search-input {
+  @include flex($flex, $column-nowrap,$center,$center);
+  @include desktop {
+    @include flex($flex, $row-nowrap,$center,$center);
+  };
+}
+
+.search-symptom, .search-name {
+  @include flex($flex, $column-nowrap,$center,$center);
+  @include cushion(0, 0 .5rem);
+}
+
 .result {
-  @include cushion(0, 1rem 0rem);
+  @include cushion(0, .5rem 0rem);
   ul {
     @include cushion(0, 0 auto);
     width: 95vw;
@@ -168,6 +188,10 @@ form {
       }
 
     }
+  }
+  .oops {
+    @include cushion(0, 0rem 2rem);
+    text-align: center;
   }
 }
 
