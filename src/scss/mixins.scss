@@ -1,0 +1,46 @@
+// MIXINS
+
+@mixin border($size, $color) {
+  border: $size solid $color;
+}
+
+@mixin cushion($padding, $margin) {
+  padding: $padding;
+  margin: $margin;
+}
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin min-max-width($min-width, $max-width) {
+  min-width: $min-width;
+  max-width: $max-width;
+}
+
+@mixin flex($display, $flex-flow, $justify-content, $align-items) {
+  display: $display;
+  flex-flow: $flex-flow;
+  justify-content: $justify-content;
+  align-items: $align-items;
+
+}
+
+@mixin tablet {
+  @media screen and (min-width: 600px) {
+    @content;
+  }
+}
+
+@mixin tablet-landscape {
+  @media screen and (min-width: 900px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: 1200px) {
+    @content;
+  }
+}

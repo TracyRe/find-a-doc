@@ -4,37 +4,39 @@ import { DoctorList } from './js/project.js';
 
 $("document").ready(function() {
 
+// put focus on the symptom input field
 $("#user-input-symptom").focus();
 
+// only allow focus on symptom input field or name input field
   function enterSymptom() {
     $("#user-input-name").val("");
   }
-
   function enterName() {
     $("#user-input-symptom").val("");
   }
-
-
   $("#user-input-symptom").focus(enterSymptom);
   $("#user-input-name").focus(enterName);
 
-
+// submit the form
   $("#find-doctors").submit(function(event) {
     event.preventDefault();
 
     const symptom = $("#user-input-symptom").val();
     const doctor = $("#user-input-name").val();
-    let search ;
+    let search;
+    let sort;
 
-
-      if (symptom !== "") {
-        search = String(`query=${symptom}`);
-      } else {
-        search = String(`name=${doctor}`);
-      }
+    // set what type of search
+    if (symptom !== "") {
+      search = String(`query=${symptom}`);
+      sort = `distance-asc`;
+    } else {
+      search = String(`name=${doctor}`);
+      sort = `full-name-asc`;
+    }
 
     let doctorList = new DoctorList();
-    let promise1 = doctorList.getDoctors(search);
+    let promise1 = doctorList.getDoctors(search, sort);
     let lastName;
     let firstName;
     let middleName;
@@ -67,17 +69,14 @@ $("#user-input-symptom").focus();
     promise1.then((response) => {
       let body = JSON.parse(response);
 
-      // debugger;
-      // console.log(body.data[4].practices[2].website);
-
+      //if there's no results
       if ( body.data.length === 0 ) {
-
         $('.result').html(`<p>We're sorry, we are unable to find anything to match your search. Check the spelling or try different words.</p>`);
-
-
       } else {
-
+      // when there are results
+      // OPEN UL
         $('.result').append(`<ul class="doc-list">`);
+        // BEGIN LOOP - DOCTOR DATA
         for (let i = 0; i < body.data.length; i++) {
           firstName = body.data[i].profile.first_name;
           lastName = body.data[i].profile.last_name;
@@ -120,12 +119,14 @@ $("#user-input-symptom").focus();
             acceptsNewPatients = `<span>Not accepting new patients</span>`;
           }
 
-          $(".doc-list").append(`<li><img src="${profilePhoto}"> <div class="details"><span class="name">${firstName} ${middleName} ${lastName}${title}</span><br>
+          $(".doc-list").append(`<li><img src="${profilePhoto}"> <div class="details"><div class="name">${firstName} ${middleName} ${lastName}${title}</div>
+          <div class="phone-web-new">
           ${phone}<br>
           ${website}
-          ${acceptsNewPatients}<br>
+          ${acceptsNewPatients}</div>
+          <div class="address">
           ${street}<br>
-          ${city}, ${state} ${zip}<div></li>`);
+          ${city}, ${state} ${zip}</div></div></li>`);
 
           } //  END LOOP - DOCTOR DATA
           $('.result').append(`</ul>`);

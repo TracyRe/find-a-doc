@@ -1,71 +1,5 @@
- // VARIABLES
-
-$basefont: 'Helvetica','Arial', sans-serif;
-$textcolor: #2C1703;
-$accent: #43b1c1;
-$accent2: #D1ECE5;
-$bgcolor-page: #b3cecd;
-$bgcolor-gradient: #ecefe1;
-$bgcolor-card: #f7f6f4; //very light grey
-$bgcolor-nav: #ffffff;
-$bgcolor-button: darken($accent,15%);
-$text-button: #ffffff;
-$text-new-patients: #1f9647;
-$box-shadow: 2px 1px 3px rgba(80, 80, 80, .5);
-$flex: flex;
-$column-nowrap: column nowrap;
-$row-nowrap: row nowrap;
-$center: center;
-
-
-
-// MIXINS
-
-@mixin border($size, $color) {
-  border: $size solid $color;
-}
-
-@mixin cushion($padding, $margin) {
-  padding: $padding;
-  margin: $margin;
-}
-
-@mixin size($width, $height) {
-  width: $width;
-  height: $height;
-}
-
-@mixin min-max-width($min-width, $max-width) {
-  min-width: $min-width;
-  max-width: $max-width;
-}
-
-@mixin flex($display, $flex-flow, $justify-content, $align-items) {
-  display: $display;
-  flex-flow: $flex-flow;
-  justify-content: $justify-content;
-  align-items: $align-items;
-
-}
-
-@mixin tablet {
-  @media screen and (min-width: 600px) {
-    @content;
-  }
-}
-
-@mixin tablet-landscape {
-  @media screen and (min-width: 900px) {
-    @content;
-  }
-}
-
-@mixin desktop {
-  @media screen and (min-width: 1200px) {
-    @content;
-  }
-}
-
+@import 'variables';
+@import 'mixins';
 
 // STYLES
 
@@ -80,9 +14,6 @@ html {
   font-size: 16px;
   @include tablet {
     font-size: 18px;
-  }
-  @include desktop {
-    font-size: 20px;
   }
 }
 
@@ -100,7 +31,7 @@ body {
 h1, h2, h3, h4 {
   line-height: 120%;
   text-align: center;
-  font-weight: normal;
+  font-family: $stylefont;
 }
 
 h2, h3, h4 {
@@ -114,7 +45,7 @@ h1 {
 
 h2 {
   font-size: 1.5rem;
-  font-style: italic;
+  font-weight: 300i;
 }
 
 h3 {
@@ -123,7 +54,7 @@ h3 {
 
 h4 {
   font-size: 1.15rem;
-  font-style: italic;
+  font-weight: 300i;
 
 }
 
@@ -144,18 +75,13 @@ input[type=text] {
 }
 
 
-
-// p:first-of-type {
-//   margin-top: 0;
-// }
-
 a {
-  color: $accent;
+  color: $link;
   text-decoration: none;
 }
 
 a:hover, a:active {
-  color: lighten($accent, 10%);
+  color: lighten($link, 10%);
 }
 
 
@@ -184,7 +110,7 @@ form {
 
 .container {
   @include size(100%, 100%);
-  background: linear-gradient($bgcolor-gradient, $bgcolor-page);
+  // background: linear-gradient($bgcolor-gradient, $bgcolor-page);
 }
 
 .content-wrap {
@@ -210,12 +136,14 @@ form {
   }
 }
 
-
 .result {
-  @include cushion(0, 1rem 2rem);
+  @include cushion(0, 1rem 0rem);
   ul {
+    @include cushion(0, 0 auto);
+    width: 95vw;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    justify-content: stretch;
     grid-column-gap: .5rem;
     grid-row-gap: .5rem;
     li {
@@ -231,6 +159,7 @@ form {
       place-self: stretch;
       grid-column-gap: .5rem;
       grid-row-gap: .5rem;
+      font-weight: 300;
 
       img {
         margin-right: .5rem;
@@ -245,12 +174,15 @@ form {
 .name {
   font: {
     size: 1.1rem;
-    weight: bold;
+    weight: 500;
   }
+}
 
+.name, .phone-web-new {
+  margin-bottom: .25rem;
 }
 
 .accept-new-patients-yes {
   color: $text-new-patients;
-  font-weight: bold;
+  font-weight: Medium 500;
 }
