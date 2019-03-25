@@ -120,12 +120,12 @@ $("#user-input-symptom").focus();
             acceptsNewPatients = `<span>Not accepting new patients</span>`;
           }
 
-          $(".doc-list").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}${title}<br>
+          $(".doc-list").append(`<li><img src="${profilePhoto}"> <div class="details"><span class="name">${firstName} ${middleName} ${lastName}${title}</span><br>
           ${phone}<br>
           ${website}
+          ${acceptsNewPatients}<br>
           ${street}<br>
-          ${city}, ${state} ${zip}<br>
-          ${acceptsNewPatients}</li>`);
+          ${city}, ${state} ${zip}<div></li>`);
 
           } //  END LOOP - DOCTOR DATA
           $('.result').append(`</ul>`);
