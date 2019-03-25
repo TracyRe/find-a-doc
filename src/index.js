@@ -4,8 +4,6 @@ import { DoctorList } from './js/project.js';
 
 $("document").ready(function() {
 
-
-
 $("#user-input-symptom").focus();
 
   function enterSymptom() {
@@ -21,16 +19,12 @@ $("#user-input-symptom").focus();
   $("#user-input-name").focus(enterName);
 
 
-
   $("#find-doctors").submit(function(event) {
     event.preventDefault();
 
     const symptom = $("#user-input-symptom").val();
     const doctor = $("#user-input-name").val();
     let search ;
-
-    console.log("symptom entry: " + symptom);
-    console.log("doctor entry: " + doctor);
 
 
       if (symptom !== "") {
@@ -39,16 +33,6 @@ $("#user-input-symptom").focus();
         search = String(`name=${doctor}`);
       }
 
-  console.log("symptom value: " + $("#user-input-symptom").val());
-  console.log("doctor value: " + $("#user-input-name").val());
-
-    // search = String(`query=${symptom}`)
-    // search = String(`name=${doctor}`)
-
-console.log("type of search: " + typeof search);
-console.log("type of symptom: " + typeof symptom);
-console.log("type of doctor: " + typeof doctor);
-    // search = `name=${doctor}`;
     let doctorList = new DoctorList();
     let promise1 = doctorList.getDoctors(search);
     let lastName;
@@ -93,58 +77,59 @@ console.log("type of doctor: " + typeof doctor);
 
       } else {
 
-        $('.result').append(`<ul>`);
+        $('.result').append(`<ul class="doc-list">`);
         for (let i = 0; i < body.data.length; i++) {
-
-          lastName = body.data[i].profile.last_name;
           firstName = body.data[i].profile.first_name;
-          // title = body.data[i].profile.title;
+          lastName = body.data[i].profile.last_name;
+          newPatientsBoolean = body.data[i].practices[0].accepts_new_patients;
+          street = body.data[i].practices[0].visit_address.street;
+          city =  body.data[i].practices[0].visit_address.city;
+          state = body.data[i].practices[0].visit_address.state;
+          zip = body.data[i].practices[0].visit_address.zip;
+          phone = formatPhone(body.data[i].practices[0].phones[0].number);
 
+          // determine whether provider has title
           if (body.data[i].profile.title !== undefined ) {
             title = ", " + body.data[i].profile.title;
           } else {
             title = ``;
           }
-
+          // determine whether provider has middlename
           if (body.data[i].profile.middle_name !== undefined ) {
             middleName = body.data[i].profile.middle_name;
           } else {
             middleName = ``;
           }
+          // determine whether provider has photo
           if (body.data[i].profile.image_url !== undefined ) {
             profilePhoto = body.data[i].profile.image_url;
           } else {
             profilePhoto = ``;
           }
-          $(".result").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}${title}<br>`);
+          // determine whether provider has website
+          if (body.data[i].practices[0].website !== undefined ) {
+            siteUrl = body.data[i].practices[0].website;
+            website = `<a href = "${siteUrl}" onclick = "window.open(this.href); return false;">Website</a><br>`;
+          } else {
+            website = ``;
+          }
+          // determine whether provider accepts new patients
+          if (newPatientsBoolean === true ) {
+            acceptsNewPatients = `<span class="accept-new-patients-yes">Accepting new patients</span>`;
+          } else {
+            acceptsNewPatients = `<span>Not accepting new patients</span>`;
+          }
 
-            newPatientsBoolean = body.data[i].practices[0].accepts_new_patients;
-            city =  body.data[i].practices[0].visit_address.city;
-            state = body.data[i].practices[0].visit_address.state;
-            street = body.data[i].practices[0].visit_address.street;
-            zip = body.data[i].practices[0].visit_address.zip;
-            phone = formatPhone(body.data[i].practices[0].phones[0].number);
-
-            if (body.data[i].practices[0].website !== undefined ) {
-              siteUrl = body.data[i].practices[0].website;
-              website = `<a href = "${siteUrl}" onclick = "window.open(this.href); return false;">Website</a><br>`;
-            } else {
-              website = ``;
-            }
-
-            if (newPatientsBoolean === true ) {
-              acceptsNewPatients = `<span class="accept-new-patients-yes">Accepting new patients</span>`;
-            } else {
-              acceptsNewPatients = `<span>Not accepting new patients</span>`;
-            }
-            $(".result").append(`${phone}<br>
-              ${website}
-              ${street}<br>
-              ${city}, ${state} ${zip}<br>`);
-            $(".result").append(`${acceptsNewPatients}</li>`);
+          $(".doc-list").append(`<li><img src="${profilePhoto}"> ${firstName} ${middleName} ${lastName}${title}<br>
+          ${phone}<br>
+          ${website}
+          ${street}<br>
+          ${city}, ${state} ${zip}<br>
+          ${acceptsNewPatients}</li>`);
 
           } //  END LOOP - DOCTOR DATA
           $('.result').append(`</ul>`);
+
         } // END ELSE - what to do if there's data
 
       }, (error) => { // END POSITIVE PROMISE, BEGIN ERROR CONDITION

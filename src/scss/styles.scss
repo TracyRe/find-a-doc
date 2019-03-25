@@ -175,12 +175,6 @@ button:hover, button:active {
   background: lighten($bgcolor-button, 10%);
 }
 
-ul {
-  margin-left: 2rem;
-  li {
-    list-style: disc;
-  }
-}
 
 form {
   @include flex($flex, $column-nowrap,$center,$center);
@@ -195,10 +189,15 @@ form {
 .content-wrap {
   @include size(80%, 100%);
   @include min-max-width(400px, 1200px);
-  @include cushion(2rem 0 1rem 0, 0 auto 0 auto);
+  @include cushion(2rem 0 1rem 0, 0 auto 2rem auto);
   @include flex($flex, $column-nowrap,$center,$center);
   height: 100%;
   // @include border(1px, #f0f);
+}
+
+.credit {
+  font-size: .85rem;
+
 }
 
 .image {
@@ -212,12 +211,20 @@ form {
 
 .result {
   @include cushion(0, 1rem 0);
+  ul {
+    li {
+      list-style-type: none;
+
+      img {
+        float: left;
+        margin-right: .5rem;
+      }
+
+    }
+
+  }
 }
 
-li > img {
-  float: left;
-  margin-right: .5rem;
-}
 
 .accept-new-patients-yes {
   color: $text-new-patients;
