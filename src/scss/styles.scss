@@ -116,9 +116,12 @@ form {
 .content-wrap {
   @include size(90%, 100%);
   @include min-max-width(400px, 1200px);
-  @include cushion(2rem 0 1rem 0, 0 auto 2rem auto);
+  @include cushion(2rem .5rem 0rem .5rem, 0 auto .5rem auto);
   @include flex($flex, $column-nowrap,$center,$center);
   height: 100%;
+  @include tablet {
+    @include cushion(2rem 0 0rem 0, 0 auto 1rem auto);
+  }
   // @include border(1px, #f0f);
 }
 
@@ -137,7 +140,10 @@ form {
 }
 
 .result {
-  @include cushion(0, 1rem 0rem);
+  @include cushion(0, 0 .25rem 0rem .25rem);
+  @include tablet {
+    @include cushion(0, 0 auto 0rem auto);
+  }
   ul {
     @include cushion(0, 0 auto);
     width: 95vw;
@@ -184,5 +190,9 @@ form {
 
 .accept-new-patients-yes {
   color: $text-new-patients;
-  font-weight: Medium 500;
+  font-style: italic;
+}
+
+.oops {
+  text-align: center;
 }

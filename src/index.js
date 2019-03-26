@@ -23,6 +23,9 @@ $("#user-input-symptom").focus();
 
     const symptom = $("#user-input-symptom").val();
     const doctor = $("#user-input-name").val();
+
+
+
     let search;
     let sort;
 
@@ -71,7 +74,7 @@ $("#user-input-symptom").focus();
 
       //if there's no results
       if ( body.data.length === 0 ) {
-        $('.result').html(`<p>We're sorry, we are unable to find anything to match your search. Check the spelling or try different words.</p>`);
+        $('.result').html(`<p class="oops">We're sorry, we are unable to find anything to match your search. Check the spelling or try different words.</p>`);
       } else {
       // when there are results
       // OPEN UL
@@ -134,7 +137,7 @@ $("#user-input-symptom").focus();
         } // END ELSE - what to do if there's data
 
       }, (error) => { // END POSITIVE PROMISE, BEGIN ERROR CONDITION
-        $('.result').html(`<p>Regrettably, there was an error retrieving information: ${error.message}. Please try again.</p>`);
+        $('.result').html(`<p class="oops">Regrettably, there was an error retrieving information: ${error.message}. Please try again.</p>`);
       }); // END ERROR CONDITION AND PROMISE
 
 
