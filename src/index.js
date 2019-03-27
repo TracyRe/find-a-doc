@@ -4,17 +4,24 @@ import { DoctorList } from './js/project.js';
 
 $("document").ready(function() {
 
+// show/hide symptom/name input fields so only one is available at a time
   $("#name-search-link").click(function(){
-    $(".search-by-name").show();
-    $(".search-by-symptom").hide();
+    $("#search-by-name").removeClass();
+    $("#search-by-name").addClass("show-search-by-name");
+    $("#search-by-symptom").removeClass();
+    $("#search-by-symptom").addClass("hide-search-by-symptom");
+    $("#user-input-symptom").val("");
   });
 
   $("#symptom-search-link").click(function(){
-    $(".search-by-symptom").show();
-    $(".search-by-name").hide();
+    $("#search-by-symptom").removeClass();
+    $("#search-by-symptom").addClass("show-search-by-symptom");
+    $("#search-by-name").removeClass();
+    $("#search-by-name").addClass("hide-search-by-name");
+    $("#user-input-name").val("");
   });
 
-  // put focus on the symptom input field
+  // put initial focus on the symptom input field
   $("#user-input-symptom").focus();
 
   // only allow focus on symptom input field or name input field
@@ -31,9 +38,14 @@ $("document").ready(function() {
   $("#find-doctors").submit(function(event) {
     event.preventDefault();
 
+// clear previous results so new results don't simply get appended to previous results
+    $(".result").empty();
+
     const symptom = $("#user-input-symptom").val();
     const doctor = $("#user-input-name").val();
+    let resultList;
 
+    // at least one field must be entered
     if (symptom.length === 0 && doctor.length === 0) {
     $('.result').html(`<p class="oops">Enter either a symptom or a name to search.</p>`);
     $("#user-input-symptom").focus();
@@ -42,7 +54,7 @@ $("document").ready(function() {
       let search;
       let sort;
 
-      // set what type of search
+      // set type of search and sort
       if (symptom !== "") {
         search = String(`query=${symptom}`);
         sort = `distance-asc`;
@@ -59,32 +71,16 @@ $("document").ready(function() {
       let title;
       let profilePhoto;
       let phone;
-      let newPatientsBoolean;
       let acceptsNewPatients;
       let city;
       let state;
       let street;
       let zip;
       let website;
-      let siteUrl;
-
-
-      // phone formatting adapted from code written by Asim Mittal https://medium.com/@asimmittal
-      function formatPhone(text) {
-        var result = [];
-        while (text.length >= 6){
-          result.push(text.substring(0, 3));
-          text = text.substring(3);
-        }
-        if (text.length > 0) result.push(text);
-        return result.join("-");
-      }
-
-      $(".result").empty(); // clears previous results so  new results don't simply get appended to previous results
 
       promise1.then((response) => {
         let body = JSON.parse(response);
-
+        resultList = doctorList.getResults(search, promise1, body);
         //if there's no results
         if ( body.data.length === 0 ) {
           $('.result').html(`<p class="oops">We're sorry, we are unable to find anything to match your search. Check the spelling or try different words.</p>`);
@@ -92,57 +88,16 @@ $("document").ready(function() {
           // when there are results
           // OPEN UL
           $('.result').append(`<ul class="doc-list">`);
-          // BEGIN LOOP - DOCTOR DATA
-          for (let i = 0; i < body.data.length; i++) {
-            firstName = body.data[i].profile.first_name;
-            lastName = body.data[i].profile.last_name;
-            newPatientsBoolean = body.data[i].practices[0].accepts_new_patients;
-            street = body.data[i].practices[0].visit_address.street;
-            city =  body.data[i].practices[0].visit_address.city;
-            state = body.data[i].practices[0].visit_address.state;
-            zip = body.data[i].practices[0].visit_address.zip;
-            phone = formatPhone(body.data[i].practices[0].phones[0].number);
-
-            // determine whether provider has title
-            if (body.data[i].profile.title !== undefined ) {
-              title = ", " + body.data[i].profile.title;
-            } else {
-              title = ``;
-            }
-            // determine whether provider has middlename
-            if (body.data[i].profile.middle_name !== undefined ) {
-              middleName = body.data[i].profile.middle_name;
-            } else {
-              middleName = ``;
-            }
-            // determine whether provider has photo
-            if (body.data[i].profile.image_url !== undefined ) {
-              profilePhoto = body.data[i].profile.image_url;
-            } else {
-              profilePhoto = ``;
-            }
-            // determine whether provider has website
-            if (body.data[i].practices[0].website !== undefined ) {
-              siteUrl = body.data[i].practices[0].website;
-              website = `<a href = "${siteUrl}" onclick = "window.open(this.href); return false;">Website</a><br>`;
-            } else {
-              website = ``;
-            }
-            // determine whether provider accepts new patients
-            if (newPatientsBoolean === true ) {
-              acceptsNewPatients = `<span class="accept-new-patients-yes">Accepting new patients</span>`;
-            } else {
-              acceptsNewPatients = `<span>Not accepting new patients</span>`;
-            }
-
-            $(".doc-list").append(`<li><img src="${profilePhoto}"> <div class="details"><div class="name">${firstName} ${middleName} ${lastName}${title}</div>
+          // // BEGIN LOOP - DOCTOR DATA
+          for (let i = 0; i < resultList.length; i++) {
+            $(".doc-list").append(`<li><img src="${resultList[i].profilePhoto}"> <div class="details"><div class="name">${resultList[i].firstName} ${resultList[i].middleName} ${resultList[i].lastName}${resultList[i].title}</div>
             <div class="phone-web-new">
-            ${phone}<br>
-            ${website}
-            ${acceptsNewPatients}</div>
+            ${resultList[i].phone}<br>
+            ${resultList[i].website}
+            ${resultList[i].acceptsNewPatients}</div>
             <div class="address">
-            ${street}<br>
-            ${city}, ${state} ${zip}</div></div></li>`);
+            ${resultList[i].street}<br>
+            ${resultList[i].city}, ${resultList[i].state} ${resultList[i].zip}</div></div></li>`);
 
           } //  END LOOP - DOCTOR DATA
           $('.result').append(`</ul>`);
@@ -154,6 +109,5 @@ $("document").ready(function() {
         }); // END ERROR CONDITION AND PROMISE
 
       }// END ELSE -- what to do if no entry
-
     }); // END SUBMIT
   }); // END DOC READY

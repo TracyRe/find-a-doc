@@ -107,6 +107,7 @@ button:hover, button:active {
 
 form {
   @include flex($flex, $column-nowrap,$center,$center);
+  transition: transform 10s;
 }
 
 
@@ -129,16 +130,23 @@ form {
 
 .credit {
   font-size: .85rem;
-
 }
 
-.search-by-symptom {
+.show-search-by-symptom {
   display: block;
 }
 
-.search-by-name {
+.hide-search-by-symptom {
   display: none;
+}
 
+.show-search-by-name {
+  display: block;
+  transition: translateY(-130px);
+}
+
+.hide-search-by-name {
+  display: none;
 }
 
 .result {
