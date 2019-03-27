@@ -20,10 +20,19 @@
 
 
         <form id="find-doctors" class="form">
-          <h3>Type your symptom or need.</h3>
-          <input id="user-input-symptom" type="text" name="user-input-symptom" placeholder="example: sore throat" value="">
-          <h4><a href="#">Or, find a healthcare provider by name.</a></h4>
-          <input id="user-input-name" type="text" name="user-input-name" placeholder="example: Miller" value="">
+          <div class="search-by-symptom">
+            <h3>Type your symptom or need.</h3>
+            <input id="user-input-symptom" type="text" name="user-input-symptom" placeholder="example: sore throat" value="">
+
+            <h4><a id="name-search-link" href="#">Or, find a healthcare provider by name.</a></h4>
+          </div>
+          <div class="search-by-name">
+            <h3>Find a healthcare provider by name.</h3>
+            <input id="user-input-name" type="text" name="user-input-name" placeholder="example: Miller" value="">
+
+            <h4><a id="symptom-search-link" href="#">Or, type your symptom or need.</a></h4>
+          </div>
+
           <button id="submit" type="submit" name="button" >Find Doctors</button>
         </form>
 

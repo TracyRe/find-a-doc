@@ -4,10 +4,20 @@ import { DoctorList } from './js/project.js';
 
 $("document").ready(function() {
 
-// put focus on the symptom input field
-$("#user-input-symptom").focus();
+  $("#name-search-link").click(function(){
+    $(".search-by-name").show();
+    $(".search-by-symptom").hide();
+  });
 
-// only allow focus on symptom input field or name input field
+  $("#symptom-search-link").click(function(){
+    $(".search-by-symptom").show();
+    $(".search-by-name").hide();
+  });
+
+  // put focus on the symptom input field
+  $("#user-input-symptom").focus();
+
+  // only allow focus on symptom input field or name input field
   function enterSymptom() {
     $("#user-input-name").val("");
   }
