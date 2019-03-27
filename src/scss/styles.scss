@@ -78,10 +78,12 @@ input[type=text] {
 a {
   color: $link;
   text-decoration: none;
+  font-weight: 500;
 }
 
 a:hover, a:active {
-  color: lighten($link, 10%);
+  color: lighten($link, 20%);
+    text-decoration: underline;
 }
 
 
@@ -165,6 +167,7 @@ form {
       place-self: stretch;
       grid-column-gap: .5rem;
       grid-row-gap: .5rem;
+      font-size: .9rem;
       font-weight: 300;
 
       img {
